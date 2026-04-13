@@ -1,6 +1,6 @@
 # Monster IA
 
-Aplikacja ...
+Aplikacja <KIEDYŚ SIĘ COŚ WPISZE>
 
 ---
 
