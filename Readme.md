@@ -39,11 +39,19 @@ Zależności nalezy dodawać do pliku `requirements.txt`. Podczas budowy kontene
 docker compose up --build
 ```
 
-3. Aplikacja FastAPI będzie dostępna pod:
+## Migracje
 
-```text
-http://localhost:8000
-http://localhost:8000/docs
+Obecnie na poczet developmentu została dodana do `compose.yml` taka linijka:
+
+```docker
+command: sh -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000"
+```
+
+tworzy ona automatycznie migracje. Na faze `DEV` jest to dobre rozwiązanie. W produkcji trzeba usunąc tą linijke i robić to ręcznie przy włączonym kontenerze.
+
+```docker
+docker compose exec api alembic revision --autogenerate -m "opis zmian"
+docker compose exec api alembic upgrade head
 ```
 
 ## Przydatne adresy

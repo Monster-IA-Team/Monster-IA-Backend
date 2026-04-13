@@ -1,13 +1,22 @@
-FROM python:3.14-slim 
+# ---------- BUILD STAGE ----------
+FROM python:3.14-slim AS builder
+
+COPY requirements.txt .
+
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# ---------- RUNTIME STAGE ----------
+FROM python:3.14-slim
 
 WORKDIR /app
 
-COPY ./requirements.txt /code/requirements.txt
-
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --upgrade -r /code/requirements.txt
+COPY --from=builder /install /usr/local
 
 COPY app/ .
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000
 

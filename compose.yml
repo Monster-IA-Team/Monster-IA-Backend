@@ -10,14 +10,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: fastApiTest
+    container_name: Monster_IA_API
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app
     ports:
       - "${API_PORT:-8000}:8000"
-    networks:
-      - dev
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-postgres}
+    command: sh -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000"
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - dev
 
   postgres:
     image: postgres:18-alpine
@@ -40,6 +47,16 @@ services:
       - db-data:/var/lib/postgresql/data
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
+    networks:
+      - dev
+    restart: unless-stopped
+
+  mailpit:
+    image: axllent/mailpit:v1.27.9
+    container_name: mailpit-dev
+    ports:
+      - "${MAILPIT_UI_PORT:-8025}:8025"
+      - "1025:1025"
     networks:
       - dev
     restart: unless-stopped
