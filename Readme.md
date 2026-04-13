@@ -1,7 +1,6 @@
-# FastAPI + PostgreSQL Boilerplate
+# Monster IA
 
-Prosty boilerplate do szybkiego startu projektu z **FastAPI** i **PostgreSQL**.
-Obsługuje Windows i Linux, z Dockerem i `.env` do konfiguracji portów i bazy danych.
+Aplikacja ...
 
 ---
 
@@ -10,7 +9,7 @@ Obsługuje Windows i Linux, z Dockerem i `.env` do konfiguracji portów i bazy d
 ```
 ./
 ├── app/
-│   └── main.py
+│   └── pliki aplikacji
 ├── Dockerfile
 ├── Dockerfile.install
 ├── requirements.txt
@@ -27,54 +26,7 @@ Obsługuje Windows i Linux, z Dockerem i `.env` do konfiguracji portów i bazy d
 
 ## Instalacja zależności
 
-### 1. Zbuduj obraz do instalacji paczek
-
-```bash
-docker build -f Dockerfile.install -t project-install .
-```
-
-### 2. Uruchom kontener z montowaniem katalogu projektu
-
-#### Linux
-
-```bash
-docker run -it --mount type=bind,source="$(pwd)",target=/app project-install
-```
-
-#### Windows (PowerShell / CMD)
-
-```powershell
-docker run -it --mount type=bind,source="${PWD}",target=/app project-install
-```
-
-### 3. W kontenerze
-
-1. Utwórz i aktywuj środowisko wirtualne:
-
-```bash
-python -m venv venv
-source venv/bin/activate
-```
-
-2. Zainstaluj paczki, np.:
-
-```bash
-pip psycopg2-binary ...
-```
-
-3. Zapisz je do `requirements.txt`:
-
-```bash id="pip-freeze"
-pip freeze > requirements.txt
-```
-
-4. Wyjdź z kontenera:
-
-```bash id="exit-container"
-exit
-```
-
-> Nie commituj katalogu `venv` – usuń go po wygenerowaniu `requirements.txt`.
+Zależności nalezy dodawać do pliku `requirements.txt`. Podczas budowy kontenera będą one się samodzielnie instalować.
 
 ---
 
@@ -93,3 +45,10 @@ docker compose up --build
 http://localhost:8000
 http://localhost:8000/docs
 ```
+
+## Przydatne adresy
+
+| Usługa        | Adres                      |
+| ------------- | -------------------------- |
+| Swagger       | http://localhost:8000/docs |
+| Głowny adress | http://localhost:8000      |
