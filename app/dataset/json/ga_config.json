@@ -1,0 +1,12 @@
+{
+  "min_drink_minutes": 5,
+  "max_drink_minutes": 30,
+  "min_effect_hours": 2.0,
+  "max_effect_hours": 4.0,
+  "min_gap_hours": 1.0,
+  "overlap_penalty": 5.0,
+  "late_penalty": 10.0,
+  "buffer_hours": 3.0,
+  "population_size": 40,
+  "generations": 200
+}

@@ -1,0 +1,400 @@
+{
+  "question": "Wolisz iść do sklepu stacjonarnego, czy zamawiać Monster online?",
+  "answers": {
+    "Stacjonarnie": {
+      "filter": [
+        "Ultra Peachy Keen",
+        "Ultra Fiesta Mango",
+        "Ultra Violet",
+        "Ultra Rosa",
+        "Full Throttle",
+        "Ultra Red",
+        "Juiced Khaotic",
+        "Ultra Blue",
+        "Ultra Black",
+        "Mango Loco Juiced",
+        "Pacific Punch",
+        "Pipeline Punch",
+        "Ultra Gold",
+        "Ultra Paradise",
+        "Nitro Super Dry",
+        "Bad Apple",
+        "Ultra",
+        "Aussie Lemonade Juiced",
+        "Basic",
+        "Ultra Violet",
+        "Ultra Rosa",
+        "Juiced Monarch",
+        "The Doctor",
+        "VR46"
+      ],
+
+      "question": "Kupujesz Monstery w Żabce, czy wolisz inną sieciówkę?",
+
+      "answers": {
+        "Żabka": {
+          "filter": [
+            "Ultra Peachy Keen",
+            "Ultra Fiesta Mango",
+            "Ultra Violet",
+            "Ultra Rosa",
+            "Full Throttle",
+            "Ultra Red",
+            "Juiced Khaotic",
+            "Ultra Blue",
+            "Ultra Black",
+            "Mango Loco Juiced",
+            "Pacific Punch",
+            "Pipeline Punch",
+            "Ultra Gold",
+            "Ultra Paradise",
+            "Nitro Super Dry",
+            "Bad Apple",
+            "Ultra",
+            "Aussie Lemonade Juiced",
+            "Basic",
+            "Juiced Monarch",
+            "The Doctor",
+            "VR46"
+          ],
+
+          "question": "Czy zależy Ci na wersji bez cukru / niskokalorycznej?",
+
+          "answers": {
+            "yes": {
+              "filter": [
+                "Ultra Peachy Keen",
+                "Ultra Fiesta Mango",
+                "Ultra Violet",
+                "Ultra Rosa",
+                "Full Throttle",
+                "Ultra Red",
+                "Ultra Blue",
+                "Ultra Black",
+                "Ultra Gold",
+                "Ultra Paradise",
+                "Nitro Super Dry",
+                "Ultra"
+              ],
+
+              "question": "Wolisz słodki, kwaśny, czy umiarkowany smak?",
+              "answers": {
+                "Słodki": {
+                  "filter": [
+                    "Ultra Peachy Keen",
+                    "Ultra Fiesta Mango",
+                    "Ultra Red"
+                  ]
+                },
+                "Umiarkowany": {
+                  "filter": [
+                    "Ultra Violet",
+                    "Ultra Rosa",
+                    "Full Throttle",
+                    "Ultra Blue",
+                    "Ultra Black",
+                    "Ultra Gold",
+                    "Ultra Paradise",
+                    "Nitro Super Dry",
+                    "Ultra"
+                  ]
+                },
+                "Kwaśny": {
+                  "filter": [
+                    "Niestety, żaden z całej serii monster nie będzie Ci odpowiadać, przykro nam"
+                  ]
+                }
+              }
+            },
+            "no": {
+              "filter": [
+                "Juiced Khaotic",
+                "Mango Loco Juiced",
+                "Pacific Punch",
+                "Pipeline Punch",
+                "Bad Apple",
+                "Aussie Lemonade Juiced",
+                "Basic",
+                "Juiced Monarch",
+                "The Doctor",
+                "VR46"
+              ],
+
+              "question": "Wolisz słodki, kwaśny, czy umiarkowany smak?",
+              "answers": {
+                "Słodki": {
+                  "filter": [
+                    "Juiced Khaotic",
+                    "Mango Loco Juiced",
+                    "Pacific Punch",
+                    "Pipeline Punch",
+                    "Basic",
+                    "Juiced Monarch"
+                  ]
+                },
+                "Umiarkowany": { "filter": ["The Doctor", "VR46"] },
+                "Kwaśny": { "filter": ["Bad Apple", "Aussie Lemonade Juiced"] }
+              }
+            }
+          }
+        },
+
+        "other": {
+          "filter": [
+            "Bad Apple",
+            "Mango Loco Juiced",
+            "Pipeline Punch",
+            "Pacific Punch",
+            "Ultra Violet",
+            "Ultra Rosa",
+            "Full Throttle",
+            "Ultra Black",
+            "Ultra Gold",
+            "Ultra",
+            "Juiced Khaotic",
+            "Juiced Monarch",
+            "The Doctor",
+            "Ultra Peachy Keen",
+            "Basic",
+            "Ultra Fiesta Mango"
+          ],
+          "question": "Czy zależy Ci na wersji bez cukru / niskokalorycznej?",
+          "answers": {
+            "yes": {
+              "filter": [
+                "Ultra Peachy Keen",
+                "Ultra Violet",
+                "Ultra Rosa",
+                "Ultra Fiesta Mango",
+                "Full Throttle",
+                "Ultra Black",
+                "Ultra Gold",
+                "Ultra"
+              ],
+              "question": "Wolisz słodki, kwaśny, czy umiarkowany smak?",
+              "answers": {
+                "Słodki": {
+                  "filter": ["Ultra Peachy Keen", "Ultra Fiesta Mango"]
+                },
+                "Umiarkowany": {
+                  "filter": [
+                    "Ultra Violet",
+                    "Ultra Rosa",
+                    "Full Throttle",
+                    "Ultra Black",
+                    "Ultra Gold",
+                    "Ultra"
+                  ]
+                },
+                "Kwaśny": {
+                  "filter": [
+                    "Niestety, żaden z całej serii monster nie będzie Ci odpowiadać, przykro nam"
+                  ]
+                }
+              }
+            },
+            "no": {
+              "filter": [
+                "Bad Apple",
+                "Juiced Khaotic",
+                "Juiced Monarch",
+                "The Doctor",
+                "Mango Loco Juiced",
+                "Pacific Punch",
+                "Pipeline Punch",
+                "Basic"
+              ],
+              "question": "Wolisz słodki, kwaśny, czy umiarkowany smak?",
+              "answers": {
+                "Słodki": {
+                  "filter": [
+                    "Juiced Khaotic",
+                    "Juiced Monarch",
+                    "Mango Loco Juiced",
+                    "Pacific Punch",
+                    "Pipeline Punch",
+                    "Basic"
+                  ]
+                },
+                "Umiarkowany": { "filter": ["The Doctor"] },
+                "Kwaśny": { "filter": ["Bad Apple"] }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "Online": {
+      "question": "Czy masz wysoki budżet i chcesz kupować limitowane / importowane smaki?",
+      "answers": {
+        "yes": {
+          "filter": [
+            "Ultra Vice (Guava)",
+            "Viking Berry Juice",
+            "Rehab Wild Berry Tea",
+            "Killer Brew Loca Moca",
+            "Peach Dragon Ice Tea",
+            "Absolute Zero",
+            "Java Salted Caramel",
+            "Java Caffe Latte",
+            "Java Irish Creme"
+          ],
+          "question": "Czy zależy Ci na wersji bez cukru / niskokalorycznej?",
+          "answers": {
+            "yes": {
+              "filter": [
+                "Ultra Vice (Guava)",
+                "Peach Dragon Ice Tea",
+                "Absolute Zero"
+              ],
+              "question": "Wolisz słodki, kwaśny, czy umiarkowany smak?",
+              "answers": {
+                "Słodki": { "filter": ["Ultra Vice (Guava)"] },
+                "Umiarkowany": {
+                  "filter": ["Peach Dragon Ice Tea", "Absolute Zero"]
+                },
+                "Kwaśny": {
+                  "filter": [
+                    "Niestety, żaden z całej serii monster nie będzie Ci odpowiadać, przykro nam"
+                  ]
+                }
+              }
+            },
+            "no": {
+              "filter": [
+                "Viking Berry Juice",
+                "Rehab Wild Berry Tea",
+                "Killer Brew Loca Moca",
+                "Java Salted Caramel",
+                "Java Caffe Latte",
+                "Java Irish Creme"
+              ],
+              "question": "Wolisz słodki, kwaśny, czy umiarkowany smak?",
+              "answers": {
+                "Słodki": {
+                  "filter": [
+                    "Viking Berry Juice",
+                    "Killer Brew Loca Moca",
+                    "Java Salted Caramel",
+                    "Java Caffe Latte",
+                    "Java Irish Creme"
+                  ]
+                },
+                "Umiarkowany": { "filter": ["Rehab Wild Berry Tea"] },
+                "Kwaśny": {
+                  "filter": [
+                    "Niestety, żaden z całej serii monster nie będzie Ci odpowiadać, przykro nam"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "no": {
+          "filter": [
+            "Ultra Peachy Keen",
+            "Ultra Fiesta Mango",
+            "Ultra Violet",
+            "Ultra Rosa",
+            "Full Throttle",
+            "Ultra Red",
+            "Juiced Khaotic",
+            "Ultra Blue",
+            "Ultra Black",
+            "Mango Loco Juiced",
+            "Pacific Punch",
+            "Pipeline Punch",
+            "Ultra Gold",
+            "Ultra Paradise",
+            "Nitro Super Dry",
+            "Bad Apple",
+            "Ultra",
+            "Aussie Lemonade Juiced",
+            "Basic",
+            "Juiced Monarch",
+            "The Doctor",
+            "VR46"
+          ],
+          "question": "Czy zależy Ci na wersji bez cukru / niskokalorycznej?",
+          "answers": {
+            "yes": {
+              "filter": [
+                "Ultra Peachy Keen",
+                "Ultra Fiesta Mango",
+                "Ultra Violet",
+                "Ultra Rosa",
+                "Full Throttle",
+                "Ultra Red",
+                "Ultra Blue",
+                "Ultra Black",
+                "Ultra Gold",
+                "Ultra Paradise",
+                "Nitro Super Dry",
+                "Ultra"
+              ],
+
+              "question": "Wolisz słodki, kwaśny, czy umiarkowany smak?",
+              "answers": {
+                "Słodki": {
+                  "filter": [
+                    "Ultra Peachy Keen",
+                    "Ultra Fiesta Mango",
+                    "Ultra Red"
+                  ]
+                },
+                "Umiarkowany": {
+                  "filter": [
+                    "Ultra Violet",
+                    "Ultra Rosa",
+                    "Full Throttle",
+                    "Ultra Blue",
+                    "Ultra Black",
+                    "Ultra Gold",
+                    "Ultra Paradise",
+                    "Nitro Super Dry",
+                    "Ultra"
+                  ]
+                },
+                "Kwaśny": {
+                  "filter": [
+                    "Niestety, żaden z całej serii monster nie będzie Ci odpowiadać, przykro nam"
+                  ]
+                }
+              }
+            },
+            "no": {
+              "filter": [
+                "Juiced Khaotic",
+                "Pacific Punch",
+                "Pipeline Punch",
+                "Bad Apple",
+                "Aussie Lemonade Juiced",
+                "Basic",
+                "Juiced Monarch",
+                "The Doctor",
+                "VR46"
+              ],
+
+              "question": "Wolisz słodki, kwaśny, czy umiarkowany smak?",
+              "answers": {
+                "Słodki": {
+                  "filter": [
+                    "Juiced Khaotic",
+                    "Mango Loco Juiced",
+                    "Pacific Punch",
+                    "Pipeline Punch",
+                    "Basic",
+                    "Juiced Monarch"
+                  ]
+                },
+                "Umiarkowany": { "filter": ["The Doctor", "VR46"] },
+                "Kwaśny": { "filter": ["Bad Apple", "Aussie Lemonade Juiced"] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
