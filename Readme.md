@@ -54,6 +54,43 @@ docker compose exec api alembic revision --autogenerate -m "opis zmian"
 docker compose exec api alembic upgrade head
 ```
 
+## Pro tip dla Visual Studio Code
+
+Jeśli VS Code nie podpowiada importów z bibliotek Pythona (np. brak autocomplete), najczęściej wynika to z braku lokalnego środowiska wirtualnego.
+
+Najprostsze rozwiązanie to utworzenie tymczasowego `.venv`:
+
+1. Otwórz Command Palette:
+
+```
+
+Ctrl + Shift + P
+
+```
+
+2. Wybierz:
+
+```
+Python: Create Environment
+
+```
+
+3. Następnie:
+
+- wybierz `venv`
+- wskaż odpowiednią wersję Pythona
+- ustaw nazwę środowiska jako `.venv`
+
+4. Na końcu wybierz instalację zależności z `requirements.txt`
+
+Po tym VS Code powinien poprawnie:
+
+- rozpoznawać importy
+- podpowiadać kod
+- wykrywać błędy
+
+**Tip:** To środowisko jest tylko pomocnicze — aplikacja i tak działa w Dockerze, więc `.venv` nie wpływa na runtime projektu.
+
 ## Przydatne adresy
 
 | Usługa        | Adres                      |

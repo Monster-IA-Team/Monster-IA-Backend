@@ -17,9 +17,25 @@ env3.*
 .env
 docs_build
 site_build
-venv
 docs.zip
 archive.zip
+venv
+venv3
+venv3.*
+venv2
+venv2.*
+venv-*
+venv_*
+venv-*
+venv.*
+.venv3
+.venv3.*
+.venv2
+.venv2.*
+.venv-*
+.venv_*
+.venv-*
+.venv.*
 
 # vim temporary files
 *~

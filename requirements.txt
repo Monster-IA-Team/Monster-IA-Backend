@@ -21,3 +21,4 @@ torch==2.11.0
 python-multipart==0.0.24
 alembic==1.18.4
 psycopg2-binary==2.9.11
+aioboto3==15.5.0
