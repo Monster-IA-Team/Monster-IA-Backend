@@ -63,16 +63,13 @@ Najprostsze rozwiązanie to utworzenie tymczasowego `.venv`:
 1. Otwórz Command Palette:
 
 ```
-
 Ctrl + Shift + P
-
 ```
 
 2. Wybierz:
 
 ```
 Python: Create Environment
-
 ```
 
 3. Następnie:
