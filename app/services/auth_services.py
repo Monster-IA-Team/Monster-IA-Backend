@@ -12,6 +12,7 @@ from dto.response.login_res import UserLoginRes
 
 from dto.request.refresh_req import RefreshTokenReq
 from dto.request.register_req import RegisterRequset
+from dto.request.reset_password_req import ResetPasswordRequet
 
 from configuration.email_sender import EmailSender
 
@@ -123,7 +124,7 @@ class AuthService:
         
         activation_token = create_activation_token(user.email, str(user.id))
         
-        background_tasks.add_task(EmailSender.send_email, to_email=user.email, token=activation_token)
+        background_tasks.add_task(EmailSender.send_activation_email, to_email=user.email, token=activation_token)
         
         return Result.success(
             message="Registration successful. Please check your email to activate your account.",
@@ -160,3 +161,47 @@ class AuthService:
             message="Account activated successfully. You can now log in.",
             status_code=200
         )
+    
+    def forget_password(self, email: str, background_tasks: BackgroundTasks) -> Result[None]:
+        user = self.user_repository.get_by_email(email)
+
+        if not user:
+             return Result.success("If an account with that email exists, a password reset link has been sent.", 200)
+        
+        reset_token = create_activation_token(user.email, str(user.id))
+        
+        background_tasks.add_task(EmailSender.send_reset_password_email, to_email=user.email, token=reset_token)
+        
+        return Result.success(
+            message="If an account with that email exists, a password reset link has been sent.",
+            status_code=200
+        )
+        
+    def reset_password(self, req: ResetPasswordRequet) -> Result[None]:
+        try: 
+            payload = jwt.decode(req.token, SECRET_KEY, algorithms=[ALGORITHM])
+            
+            if payload.get("type") != "activation":
+                return Result.failure("Invalid token type", 400)
+
+            email = payload.get("sub1")
+            user_id_str = payload.get("sub2")
+            
+            if not email or not user_id_str:
+                return Result.failure("Invalid token payload", 400)
+            
+            user = self.user_repository.get_by_id(uuid.UUID(user_id_str))
+            if not user or user.email != email:
+                return Result.failure("User not found", 404)
+            
+        except jwt.ExpiredSignatureError:
+            return Result.failure("Activation token has expired", 400)
+
+        user.password = get_password_hash(req.password)
+        self.user_repository.save(user)
+        
+        return Result.success(
+            message="Password reset successfully. You can now log in with your new password.",
+            status_code=200
+        )
+        
