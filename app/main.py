@@ -7,7 +7,8 @@ from controllers import  (
     predict_controllers, 
     schedule_controllers, 
     quiz_controllers,
-    image_controllers
+    image_controllers,
+    auth_controller
 )
 
 from configuration.s3_config import init_bucket
@@ -41,3 +42,4 @@ app.include_router(predict_controllers.router)
 app.include_router(schedule_controllers.router)
 app.include_router(quiz_controllers.router)
 app.include_router(image_controllers.router)
+app.include_router(auth_controller.router)

@@ -1,22 +1,18 @@
 import os, traceback , boto3
-
 from datetime import time
-
+from models.user import User
+from models.role import Role
+from models.monster_type import MonsterType
+from models.taste_profile_enum import TasteProfileEnum
+from configuration.database import DATABASE_URL
+from configuration.s3_config import S3_CONFIG, BUCKET_NAME, S3_PUBLIC_ENDPOINT
+from configuration.security import get_password_hash
 from sqlmodel import (
     Session,
     create_engine,
     SQLModel,
     select
 )
-
-from models.user import User
-from models.role import Role
-from models.monster_type import MonsterType
-from models.taste_profile_enum import TasteProfileEnum
-
-from configuration.database import DATABASE_URL
-
-from configuration.s3_config import S3_CONFIG, BUCKET_NAME, S3_PUBLIC_ENDPOINT
 
 engine = create_engine(DATABASE_URL, echo=True)
 
@@ -39,6 +35,7 @@ class SeedData:
             self.seed_users() 
         
         self.seed_monsters()
+        
     def seed_roles(self):
         roles = [
             Role(name="Admin"),
@@ -55,14 +52,14 @@ class SeedData:
             User(
                 username="admin",
                 email="admin@example.com",
-                password="Admin123!",
+                password=get_password_hash("Admin123!"),
                 is_active=True,
                 roles=[admin_role]
             ),
             User(
                 username="user",
                 email="user@example.com",
-                password="User123!",
+                password=get_password_hash("User123!"),
                 is_active=True,
                 roles=[user_role]
             )
