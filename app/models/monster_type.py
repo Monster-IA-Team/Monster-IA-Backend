@@ -3,7 +3,8 @@ from datetime import datetime, timezone
 from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column
 from sqlalchemy import String, Text
-from .enums import TasteProfileEnum
+from models.taste_profile_enum import TasteProfileEnum
+from models.is_sugar_free_enum import IsSugarFreeEnum
 
 if TYPE_CHECKING:
     from .user_monster_entry import UserMonsterEntry

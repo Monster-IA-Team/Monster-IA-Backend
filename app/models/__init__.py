@@ -1,15 +1,14 @@
 from sqlmodel import SQLModel
 
-from .enums import TasteProfileEnum, IsSugarFreeEnum
-
-from .user_role_link import UserRoleLink
-
-from .role import Role
-from .user import User
-from .monster_type import MonsterType
-from .user_monster_entry import UserMonsterEntry
-from .planner import Planner
-from .task import Task
+from models.taste_profile_enum import TasteProfileEnum
+from models.is_sugar_free_enum import IsSugarFreeEnum
+from models.user_role_link import UserRoleLink
+from models.role import Role
+from models.user import User
+from models.monster_type import MonsterType
+from models.user_monster_entry import UserMonsterEntry
+from models.planner import Planner
+from models.task import Task
 
 __all__ = [
     "SQLModel",
