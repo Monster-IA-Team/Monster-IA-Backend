@@ -33,6 +33,10 @@ class Auth:
         
         try:
             payload = jwt.decode(token, self.security_config.SECERT_KEY, algorithms=[self.security_config.ALGORITHM])
+            
+            if payload.get("type") != "access":
+                raise credentials_exception
+            
             user_id_str: str = payload.get("sub")
             
             if user_id_str is None:

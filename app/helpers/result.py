@@ -5,7 +5,7 @@ T = TypeVar('T')
 
 class Result(BaseModel, Generic[T]):
     is_success: bool
-    value: Optional[T] = None
+    data: Optional[T] = None
     message: Optional[str] = None
     status_code: int
     errors: Optional[List[str]] = None
