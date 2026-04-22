@@ -13,7 +13,7 @@ config = context.config
 
 sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), '..')))
 
-from dto.models import *
+from models import SQLModel
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
