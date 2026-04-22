@@ -1,4 +1,5 @@
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter, File, UploadFile, Depends
+from dependencies.auth import auth_handler
 
 from services.prediction_services import PredictionService
 
@@ -6,7 +7,8 @@ from dto.response.prediction_res import PredictionResponse
 
 router = APIRouter(
     prefix="/api/predict",
-    tags=["IA Prediction"]
+    tags=["IA Prediction"],
+    dependencies=[Depends(auth_handler.get_current_user)]
 )
 
 prediction_service = PredictionService()

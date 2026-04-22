@@ -1,9 +1,11 @@
-from fastapi import APIRouter, File, UploadFile, Form
+from fastapi import APIRouter, Depends, File, UploadFile, Form
 from services.s3_services import S3Service
+from dependencies.auth import auth_handler
 
 router = APIRouter(
     prefix="/api/image",
-    tags=["Image Upload"]
+    tags=["Image Upload"],
+    dependencies=[Depends(auth_handler.get_current_user)]
 )
 
 s3_service = S3Service()
