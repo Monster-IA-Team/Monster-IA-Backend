@@ -1,9 +1,12 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, BackgroundTasks
 from fastapi.security import OAuth2PasswordRequestForm
 from services.auth_services import AuthService
-from dto.response.login_res import UserLoginRes
 from helpers.result import Result
+
+from dto.response.login_res import UserLoginRes
+ 
 from dto.request.refresh_req import RefreshTokenReq
+from dto.request.register_req import RegisterRequset
 
 router = APIRouter(
     prefix="/api/auth",
@@ -33,3 +36,18 @@ async def refresh_token(
     auth_service: AuthService = Depends()
 ) -> Result[UserLoginRes]:
     return auth_service.refresh(req)
+
+@router.post("/register", response_model=Result[None], summary="Zarejestruj konto")
+async def register(
+    req: RegisterRequset,
+    background_tasks: BackgroundTasks,
+    auth_service: AuthService = Depends()
+) -> Result[None]:
+    return auth_service.register(req, background_tasks)
+
+@router.get("/activate", response_model=Result[None], summary="Aktywuj konto z linku w mailu")
+async def activate_account(
+    token: str,
+    auth_service: AuthService = Depends()
+) -> Result[None]:
+    return auth_service.activate_account(token)

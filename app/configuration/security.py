@@ -29,3 +29,8 @@ def create_refresh_token(data: dict) -> str:
     expire = datetime.now(timezone.utc) + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
     to_encode.update({"exp": expire, "type": "refresh"})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+def create_activation_token(email: str, id: str) -> str:
+    expire = datetime.now(timezone.utc) + timedelta(hours=24)
+    to_encode = {"sub1": email, "sub2": id, "exp": expire, "type": "activation"}
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)

@@ -95,3 +95,4 @@ Po tym VS Code powinien poprawnie:
 | Swagger       | http://localhost:8000/docs  |
 | Głowny adress | http://localhost:8000       |
 | MinIo         | http://localhost:9001/login |
+| MailPit       | http://localhost:8025/      |
