@@ -90,7 +90,8 @@ Po tym VS Code powinien poprawnie:
 
 ## Przydatne adresy
 
-| Usługa        | Adres                      |
-| ------------- | -------------------------- |
-| Swagger       | http://localhost:8000/docs |
-| Głowny adress | http://localhost:8000      |
+| Usługa        | Adres                       |
+| ------------- | --------------------------- |
+| Swagger       | http://localhost:8000/docs  |
+| Głowny adress | http://localhost:8000       |
+| MinIo         | http://localhost:9001/login |

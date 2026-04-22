@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+from fastapi.concurrency import run_in_threadpool
 
 from controllers import  (
     predict_controllers, 
@@ -11,9 +12,15 @@ from controllers import  (
 
 from configuration.s3_config import init_bucket
 
+from seed.seed_data import SeedData
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_bucket()
+    
+    seeder = SeedData()
+    await run_in_threadpool(seeder.seed_data)
+    
     yield
 
 app = FastAPI(
