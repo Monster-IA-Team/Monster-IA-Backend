@@ -1,8 +1,9 @@
 import uuid
-from datetime import time
-from typing import Optional, List, TYPE_CHECKING
-from sqlmodel import SQLModel, Field, Relationship, Column, JSON
-from sqlalchemy import Time
+from datetime import datetime, timezone, time
+from typing import List, Optional, TYPE_CHECKING, Any
+from sqlmodel import SQLModel, Field, Relationship, Column
+from sqlalchemy import Time, SmallInteger, DateTime
+from sqlalchemy.dialects.postgresql import JSONB
 
 if TYPE_CHECKING:
     from .user import User
@@ -10,11 +11,16 @@ if TYPE_CHECKING:
 
 class Planner(SQLModel, table=True):
     __tablename__ = "planners"
+    
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
-    user_id: Optional[uuid.UUID] = Field(foreign_key="users.id")
-    wake_time: time = Field(sa_column=Column(Time, nullable=False))
-    sleep_time: time = Field(sa_column=Column(Time, nullable=False))
-    planner_data: dict = Field(default={}, sa_column=Column(JSON))
+    user_id: uuid.UUID = Field(foreign_key="users.id")
+    
+    wake_time: time = Field(sa_type=Time, nullable=False)
+    sleep_time: time = Field(sa_type=Time, nullable=False)
+    desired_count: Optional[int] = Field(sa_type=SmallInteger)
+    planner: Any = Field(sa_column=Column(JSONB, nullable=False))
+    
+    created_at: Optional[datetime] = Field(sa_type=DateTime(timezone=True), default_factory=lambda: datetime.now(timezone.utc))
 
-    user: Optional["User"] = Relationship(back_populates="planners")
+    user: "User" = Relationship(back_populates="planners")
     tasks: List["Task"] = Relationship(back_populates="planner")
