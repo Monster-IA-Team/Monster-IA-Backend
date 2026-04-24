@@ -1,11 +1,15 @@
 import re
 from pydantic import BaseModel, EmailStr, field_validator, model_validator
 
-class RegisterRequset(BaseModel):
+class RegisterRequest(BaseModel):
     email: EmailStr
     username: str
     password: str
     confirm_password: str
+    is_prefers_sugar_free: bool | None = None
+    is_prefers_sweet: bool = False
+    is_prefers_sour: bool = False
+    is_prefers_moderate: bool = False
     
     @field_validator('password')
     @classmethod
@@ -21,7 +25,7 @@ class RegisterRequset(BaseModel):
         return v
     
     @model_validator(mode='after')
-    def check_passwords_match(self) -> 'RegisterRequset':
+    def check_passwords_match(self) -> 'RegisterRequest':
         if self.password != self.confirm_password:
             raise ValueError('Passwords do not match')
         return self

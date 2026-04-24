@@ -1,12 +1,18 @@
 import os, traceback , boto3
 from datetime import time
+
 from models.user import User
 from models.role import Role
 from models.monster_type import MonsterType
+from models.taste_preference import TastePreference
+from models.is_sugar_free_enum import IsSugarFreeEnum
 from models.taste_profile_enum import TasteProfileEnum
+
 from configuration.database import DATABASE_URL
 from configuration.s3_config import S3_CONFIG, BUCKET_NAME, S3_PUBLIC_ENDPOINT
+
 from configuration.security import get_password_hash
+
 from sqlmodel import (
     Session,
     create_engine,
@@ -48,23 +54,43 @@ class SeedData:
         admin_role = self.session.exec(select(Role).where(Role.name == "Admin")).first()
         user_role = self.session.exec(select(Role).where(Role.name == "User")).first()
 
-        users = [
-            User(
-                username="admin",
-                email="admin@example.com",
-                password=get_password_hash("Admin123!"),
-                is_active=True,
-                roles=[admin_role]
-            ),
-            User(
-                username="user",
-                email="user@example.com",
-                password=get_password_hash("User123!"),
-                is_active=True,
-                roles=[user_role]
-            )
-        ]
-        self.session.add_all(users)
+        admin = User(
+            username="admin",
+            normalized_username="ADMIN",
+            email="admin@example.com",
+            normalized_email="ADMIN@EXAMPLE.COM",
+            password=get_password_hash("Admin123!"),
+            is_active=True,
+            roles=[admin_role]
+        )
+        
+        admin_taste = TastePreference(
+            user_id=admin.id,
+            is_sweet=True,
+            is_sour=False,
+            is_moderate=False,
+            is_sugar_free=IsSugarFreeEnum.no_preference
+        )
+        
+        user = User(
+            username="user",
+            normalized_username="USER",
+            email="user@example.com",
+            normalized_email="USER@EXAMPLE.COM",
+            password=get_password_hash("User123!"),
+            is_active=True,
+            roles=[user_role]
+        )
+        
+        user_taste = TastePreference(
+            user_id=user.id,
+            is_sweet=False,
+            is_sour=True,
+            is_moderate=False,
+            is_sugar_free=IsSugarFreeEnum.yes
+        )
+        
+        self.session.add_all([admin, user, admin_taste, user_taste])
         self.session.commit()
         
     def seed_monsters(self):

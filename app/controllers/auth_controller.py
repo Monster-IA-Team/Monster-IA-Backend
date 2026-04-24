@@ -6,7 +6,7 @@ from helpers.result import Result
 from dto.response.login_res import UserLoginRes
  
 from dto.request.refresh_req import RefreshTokenReq
-from dto.request.register_req import RegisterRequset
+from dto.request.register_req import RegisterRequest
 from dto.request.reset_password_req import ResetPasswordRequet
 
 router = APIRouter(
@@ -52,10 +52,11 @@ async def refresh_token(
     response_model=Result[None], 
     summary="Register a new account",
     description="Creates a new user account with the default 'User' role." + 
-    " The account is created as inactive, and an activation email is sent in the background."
+    " The account is created as inactive, and an activation email is sent in the background." +
+    " Field 'is_prefers_sugar_free' is optional and if set this filed to null taste progile set as no preference."
 )
 async def register(
-    req: RegisterRequset,
+    req: RegisterRequest,
     background_tasks: BackgroundTasks,
     auth_service: AuthService = Depends()
 ) -> Result[None]:

@@ -22,7 +22,6 @@ class User(SQLModel, table=True):
     password: str = Field(sa_type=String(255), nullable=False)
     
     is_active: Optional[bool] = Field(default=None)
-    prefers_sugar_free: Optional[bool] = Field(default=None)
     
     created_at: Optional[datetime] = Field(sa_type=DateTime(timezone=True), default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = Field(sa_type=DateTime(timezone=True), default_factory=lambda: datetime.now(timezone.utc))

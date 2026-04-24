@@ -1,17 +1,20 @@
 import uuid, jwt
-
 from fastapi import Depends, BackgroundTasks
-from models.user import User
 from datetime import timedelta
+
+from models.user import User
+from models.taste_preference import TastePreference
+from models.is_sugar_free_enum import IsSugarFreeEnum
 from helpers.result import Result
 
 from repositories.user_repository import UserRepository
 from repositories.role_repository import RoleRepository
+from repositories.taste_repository import TasteRepository
 
 from dto.response.login_res import UserLoginRes
 
 from dto.request.refresh_req import RefreshTokenReq
-from dto.request.register_req import RegisterRequset
+from dto.request.register_req import RegisterRequest
 from dto.request.reset_password_req import ResetPasswordRequet
 
 from configuration.email_sender import EmailSender
@@ -23,9 +26,15 @@ from configuration.security import (
 
 
 class AuthService:
-    def __init__(self, user_repository: UserRepository = Depends(), role_repository: RoleRepository = Depends()):
+    def __init__(
+            self, 
+            user_repository: UserRepository = Depends(), 
+            role_repository: RoleRepository = Depends(), 
+            taste_repository: TasteRepository = Depends()
+            ):
         self.user_repository = user_repository
         self.role_repository = role_repository
+        self.taste_repository = taste_repository
 
     def login(self, email: str, password: str) -> Result[UserLoginRes]:
         user = self.user_repository.get_by_email(email)
@@ -101,7 +110,7 @@ class AuthService:
             )
         )
     
-    def register(self, req: RegisterRequset, background_tasks: BackgroundTasks) -> Result[None]:
+    def register(self, req: RegisterRequest, background_tasks: BackgroundTasks) -> Result[None]:
         existing_user = self.user_repository.get_by_email(req.email)
         if existing_user:
             return Result.failure("Email already in use", 400)
@@ -114,7 +123,9 @@ class AuthService:
         
         user = User(
             email=req.email,
+            normalized_email=req.email.upper(),
             username=req.username,
+            normalized_username=req.username.upper(),
             password=get_password_hash(req.password),
             is_active=False,
             roles=[role] if role else []
@@ -122,6 +133,22 @@ class AuthService:
         
         self.user_repository.save(user)
         
+        taste = TastePreference(
+            user_id=user.id,
+            is_sweet=req.is_prefers_sweet,
+            is_sour=req.is_prefers_sour,
+            is_moderate=req.is_prefers_moderate,
+        )
+        
+        if req.is_prefers_sugar_free is True:
+            taste.is_sugar_free = IsSugarFreeEnum.yes
+        elif req.is_prefers_sugar_free is False:
+            taste.is_sugar_free = IsSugarFreeEnum.no
+        else:
+            taste.is_sugar_free = IsSugarFreeEnum.no_preference
+            
+        self.taste_repository.save(taste)
+
         activation_token = create_activation_token(user.email, str(user.id))
         
         background_tasks.add_task(EmailSender.send_activation_email, to_email=user.email, token=activation_token)
