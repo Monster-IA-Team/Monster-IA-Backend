@@ -1,14 +1,15 @@
 from sqlmodel import SQLModel
 
-from models.taste_profile_enum import TasteProfileEnum
-from models.is_sugar_free_enum import IsSugarFreeEnum
-from models.user_role_link import UserRoleLink
-from models.role import Role
-from models.user import User
-from models.monster_type import MonsterType
-from models.user_monster_entry import UserMonsterEntry
-from models.planner import Planner
-from models.task import Task
+from .taste_profile_enum import TasteProfileEnum
+from .is_sugar_free_enum import IsSugarFreeEnum
+from .user_role_link import UserRoleLink 
+from .role import Role
+from .taste_preference import TastePreference # Dodano to
+from .user import User
+from .monster_type import MonsterType
+from .user_monster_entry import UserMonsterEntry
+from .planner import Planner
+from .task import Task
 
 __all__ = [
     "SQLModel",
@@ -16,6 +17,7 @@ __all__ = [
     "IsSugarFreeEnum",
     "UserRoleLink",
     "Role",
+    "TastePreference",
     "User",
     "MonsterType",
     "UserMonsterEntry",
