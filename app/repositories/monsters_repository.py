@@ -61,7 +61,8 @@ class MonsterRepository:
         self.session.commit()
         self.session.refresh(monster)
 
-    def create(self, monster: MonsterType):
+    def save(self, monster: MonsterType) -> MonsterType:
         self.session.add(monster)
         self.session.commit()
         self.session.refresh(monster)
+        return monster

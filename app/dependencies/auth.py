@@ -7,7 +7,7 @@ from configuration.security import SECRET_KEY, ALGORITHM
 from models.user import User
 from repositories.user_repository import UserRepository
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/swagger-token")
 
 class Auth:    
     def get_current_user(

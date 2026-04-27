@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, BackgroundTasks
+from fastapi import APIRouter, Depends, BackgroundTasks, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from services.auth_services import AuthService
 from helpers.result import Result
@@ -100,3 +100,22 @@ async def confirm_reset_password(
     auth_service: AuthService = Depends()
 ) -> Result[None]:
     return auth_service.reset_password(req)
+
+
+@router.post(
+    "/swagger-token",
+    include_in_schema=False
+)
+async def login_for_swagger(
+        form_data: OAuth2PasswordRequestForm = Depends(),
+        auth_service: AuthService = Depends()
+):
+    result = auth_service.login(form_data.username, form_data.password)
+
+    if result.status_code != 200:
+        raise HTTPException(status_code=result.status_code, detail=result.message)
+
+    return {
+        "access_token": result.data.access_token,
+        "token_type": "bearer"
+    }

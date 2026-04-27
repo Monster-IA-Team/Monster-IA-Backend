@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime, timezone
 
 from dto.request.add_monser_req import AddMonserRequest
+from dto.request.update_monster_req import UpdateMonsterReq
 from models import TasteProfileEnum
 from models.monster_type import MonsterType
 from repositories.monsters_repository import MonsterRepository
@@ -115,9 +116,61 @@ class MonsterService:
             created_at = datetime.now(timezone.utc),
         )
 
-        self.monster_repository.create(monster)
+        self.monster_repository.save(monster)
 
         return Result.success(
             message="Monster created successfully",
             status_code=201
         )
+
+    async def update(self, request: UpdateMonsterReq, image: UploadFile | None) -> Result[None]:
+        if request.id is None:
+            return Result.failure(
+                message="Invalid request",
+                status_code=400
+            )
+
+        monster = self.monster_repository.get_by_id(request.id)
+
+        if not monster:
+            return Result.failure(
+                message="Monster not found",
+                status_code=404
+            )
+
+        update_data = request.model_dump(exclude_none=True, exclude={"id"})
+
+        field_mapping = {
+            "is_sugar_free": "sugar_free",
+            "is_available_online": "available_online",
+            "is_available_zabka": "available_zabka",
+            "is_available_store": "available_store",
+            "is_premium_line": "premium_line"
+        }
+
+        for key, value in update_data.items():
+            db_field = field_mapping.get(key, key)
+            setattr(monster, db_field, value)
+
+        if image and image.filename:
+            old_image_url = monster.image_url
+
+            new_image_url = await self.s3_service.upload_file(
+                name=monster.name,
+                folder=PUBLIC_MONSTER_FOLDER,
+                file=image,
+            )
+            monster.image_url = new_image_url
+
+            if old_image_url:
+                await self.s3_service.delete_file(old_image_url)
+
+        monster.updated_at = datetime.now(timezone.utc)
+        self.monster_repository.save(monster)
+
+        return Result.success(
+            message="Monster updated successfully",
+            status_code=200
+        )
+
+

@@ -1,14 +1,17 @@
-from typing import Literal, Optional
 import uuid
+from typing import Literal, Optional
+
 from fastapi import APIRouter, Depends, Query, Path, status, Form, File, UploadFile
 
 from dto.request.add_monser_req import AddMonserRequest
-from helpers.result import Result
-from models.taste_profile_enum import TasteProfileEnum
-
-from services.monster_services import MonsterService
+from dto.request.update_monster_req import UpdateMonsterReq
 from dto.response.monster_list_res import MonsterListRes
 from helpers.pageable import Pageable
+from helpers.result import Result
+from models.taste_profile_enum import TasteProfileEnum
+from services.monster_services import MonsterService
+from dependencies.auth import auth_handler
+from models.user import User
 
 router = APIRouter(
     prefix="/api/monsters",
@@ -26,7 +29,8 @@ async def get_list(
     size: int = Query(10, ge=1, le=100, description="Number of items per page (max 100)"),
     sort_by: str = Query("id", description="Column name to sort the results by"),
     sort_order: Literal["asc", "desc"] = Query("asc", description="Sort direction: ascending ('asc') or descending ('desc')"),
-    monster_service: MonsterService = Depends()
+    monster_service: MonsterService = Depends(),
+    current_admin: User = Depends(auth_handler.get_user_in_role_admin),
 ) -> Result[Pageable[MonsterListRes]]: 
     """
     ### Returns available Monster flavors from the database.
@@ -57,7 +61,8 @@ async def get_list(
 )
 async def delete_monster(
     id: uuid.UUID = Path(..., description="Unique identifier (UUID) of the Monster to delete"),
-    monster_service: MonsterService = Depends()
+    monster_service: MonsterService = Depends(),
+    current_admin: User = Depends(auth_handler.get_user_in_role_admin),
 ):
     """
     ### Performs a Soft Delete of a Monster.
@@ -92,7 +97,8 @@ async def create_monster(
         is_available_store: Optional[bool] = Form(None),
         is_premium_line: Optional[bool] = Form(None),
         image: UploadFile = File(..., description="Image file (JPG/PNG) of the Monster can"),
-        monster_service: MonsterService = Depends()
+        monster_service: MonsterService = Depends(),
+        current_admin: User = Depends(auth_handler.get_user_in_role_admin),
 ):
     """
     ### Creates a new Monster Energy flavor in the database.
@@ -113,3 +119,49 @@ async def create_monster(
         is_premium_line=is_premium_line
     )
     return await monster_service.create(request_dto, image)
+
+@router.put(
+    "/update",
+    summary="Update a Monster flavor",
+    response_description="Success message upon update.",
+    status_code=status.HTTP_200_OK,
+    responses={
+        400: {"description": "Invalid input data."},
+        404: {"description": "Monster not found."},
+        500: {"description": "Internal server error during S3 upload or database save."}
+    }
+)
+async def update_monster(
+        id: uuid.UUID = Form(..., description="Unique identifier (UUID) of the Monster to update"),
+        name: Optional[str] = Form(None, description="Name of the new Monster flavor"),
+        description: Optional[str] = Form(None, description="Detailed description of the flavor"),
+        caffeine_mg: Optional[int] = Form(None, description="Amount of caffeine in mg"),
+        taste_profile: Optional[TasteProfileEnum] = Form(None, description="General taste profile category"),
+        is_sugar_free: Optional[bool] = Form(None, description="Is it a zero-sugar variant?"),
+        is_available_online: Optional[bool] = Form(None),
+        is_available_zabka: Optional[bool] = Form(None),
+        is_available_store: Optional[bool] = Form(None),
+        is_premium_line: Optional[bool] = Form(None),
+        image: Optional[UploadFile] = File(None, description="Image file (JPG/PNG) of the Monster can"),
+        monster_service: MonsterService = Depends(),
+        current_admin: User = Depends(auth_handler.get_user_in_role_admin),
+):
+    """
+    ### Updates an existing Monster Energy flavor.
+
+    This endpoint accepts `multipart/form-data`. All fields except the `id` are optional.
+    Only the provided fields will be updated. If a new image is provided, the old one will be automatically removed from S3.
+    """
+    request = UpdateMonsterReq(
+        id=id,
+        name=name,
+        description=description,
+        caffeine_mg=caffeine_mg,
+        is_sugar_free=is_sugar_free,
+        taste_profile=taste_profile,
+        is_available_online=is_available_online,
+        is_available_zabka=is_available_zabka,
+        is_available_store=is_available_store,
+        is_premium_line=is_premium_line
+    )
+    return await monster_service.update(request, image)
