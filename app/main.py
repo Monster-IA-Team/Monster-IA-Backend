@@ -8,7 +8,8 @@ from controllers import  (
     schedule_controllers, 
     quiz_controllers,
     image_controllers,
-    auth_controller
+    auth_controller,
+    monster_controller
 )
 
 from configuration.s3_config import init_bucket
@@ -43,3 +44,4 @@ app.include_router(schedule_controllers.router)
 app.include_router(quiz_controllers.router)
 app.include_router(image_controllers.router)
 app.include_router(auth_controller.router)
+app.include_router(monster_controller.router)
