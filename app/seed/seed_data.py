@@ -1,5 +1,4 @@
 import os, traceback , boto3
-from datetime import time
 
 from models.user import User
 from models.role import Role

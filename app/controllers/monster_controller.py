@@ -1,7 +1,10 @@
-from typing import Literal
+from typing import Literal, Optional
 import uuid
-from fastapi import APIRouter, Depends, Query, Path, status
+from fastapi import APIRouter, Depends, Query, Path, status, Form, File, UploadFile
+
+from dto.request.add_monser_req import AddMonserRequest
 from helpers.result import Result
+from models.taste_profile_enum import TasteProfileEnum
 
 from services.monster_services import MonsterService
 from dto.response.monster_list_res import MonsterListRes
@@ -66,3 +69,47 @@ async def delete_monster(
     - The associated **image in the S3/MinIO cloud is physically deleted**.
     """
     return await monster_service.delete(id)
+
+
+@router.post(
+    "/add",
+    summary="Add a new Monster",
+    response_description="Success message upon creation.",
+    status_code=status.HTTP_201_CREATED,
+    responses={
+        400: {"description": "Invalid input data or missing image."},
+        500: {"description": "Internal server error during S3 upload or database save."}
+    }
+)
+async def create_monster(
+        name: str = Form(..., description="Name of the new Monster flavor"),
+        description: str = Form(..., description="Detailed description of the flavor"),
+        caffeine_mg: int = Form(..., description="Amount of caffeine in mg"),
+        taste_profile: TasteProfileEnum = Form(..., description="General taste profile category"),
+        is_sugar_free: Optional[bool] = Form(None, description="Is it a zero-sugar variant?"),
+        is_available_online: Optional[bool] = Form(None),
+        is_available_zabka: Optional[bool] = Form(None),
+        is_available_store: Optional[bool] = Form(None),
+        is_premium_line: Optional[bool] = Form(None),
+        image: UploadFile = File(..., description="Image file (JPG/PNG) of the Monster can"),
+        monster_service: MonsterService = Depends()
+):
+    """
+    ### Creates a new Monster Energy flavor in the database.
+
+    This endpoint accepts `multipart/form-data` to handle both text fields and the image file upload simultaneously.
+    - The image will be uploaded to the S3/MinIO bucket.
+    - The record will be saved in the database with the generated image URL.
+    """
+    request_dto = AddMonserRequest(
+        name=name,
+        description=description,
+        caffeine_mg=caffeine_mg,
+        is_sugar_free=is_sugar_free,
+        taste_profile=taste_profile,
+        is_available_online=is_available_online,
+        is_available_zabka=is_available_zabka,
+        is_available_store=is_available_store,
+        is_premium_line=is_premium_line
+    )
+    return await monster_service.create(request_dto, image)

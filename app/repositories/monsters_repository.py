@@ -60,3 +60,8 @@ class MonsterRepository:
         self.session.add(monster)
         self.session.commit()
         self.session.refresh(monster)
+
+    def create(self, monster: MonsterType):
+        self.session.add(monster)
+        self.session.commit()
+        self.session.refresh(monster)

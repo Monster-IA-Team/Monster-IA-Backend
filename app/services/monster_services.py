@@ -1,13 +1,18 @@
-from fastapi import Depends
+from fastapi import Depends, UploadFile
 from typing import Literal
 import uuid
+from datetime import datetime, timezone
 
+from dto.request.add_monser_req import AddMonserRequest
+from models import TasteProfileEnum
 from models.monster_type import MonsterType
 from repositories.monsters_repository import MonsterRepository
 from dto.response.monster_list_res import MonsterListRes
 from helpers.result import Result
 from helpers.pageable import Pageable
 from services.s3_services import S3Service
+
+PUBLIC_MONSTER_FOLDER = "public/monsters"
 
 class MonsterService:
     def __init__(self, monser_repository: MonsterRepository = Depends(), s3_service: S3Service = Depends()):
@@ -84,4 +89,35 @@ class MonsterService:
         return Result.success(
             message="Monster deleted successfully",
             status_code=200
+        )
+
+    async def create(self, request: AddMonserRequest, image: UploadFile) -> Result[None]:
+        if image is None or not image.filename:
+            return Result.failure(message="Invalid image", status_code=400)
+
+        image_url = await self.s3_service.upload_file(
+            name=request.name,
+            folder=PUBLIC_MONSTER_FOLDER,
+            file=image,
+        )
+
+        monster = MonsterType(
+            name = request.name,
+            description = request.description,
+            caffeine_mg = request.caffeine_mg,
+            sugar_free = request.is_sugar_free,
+            taste_profile = request.taste_profile,
+            available_online = request.is_available_online,
+            available_zabka = request.is_available_zabka,
+            available_store = request.is_available_store,
+            premium_line = request.is_premium_line,
+            image_url = image_url,
+            created_at = datetime.now(timezone.utc),
+        )
+
+        self.monster_repository.create(monster)
+
+        return Result.success(
+            message="Monster created successfully",
+            status_code=201
         )
