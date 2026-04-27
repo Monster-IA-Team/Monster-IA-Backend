@@ -38,3 +38,17 @@ class S3Service:
             except Exception as e:
                 logger.error(f"Error uploading file to S3: {e}")
                 raise e
+    
+    async def delete_file(self, file_url: str):
+        if not file_url:
+            return
+        
+        prefix = f"{S3_PUBLIC_ENDPOINT}/{BUCKET_NAME}/"
+        
+        if file_url.startswith(prefix):
+            s3_key = file_url.replace(prefix, "")
+            async with session.client("s3", **S3_CONFIG) as s3_client:
+                try:
+                    await s3_client.delete_object(Bucket=BUCKET_NAME, Key=s3_key)
+                except ClientError as e:
+                    logger.error(f"Error deleting file from S3: {e}")

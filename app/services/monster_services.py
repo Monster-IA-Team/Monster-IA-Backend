@@ -1,18 +1,20 @@
 from fastapi import Depends
 from typing import Literal
+import uuid
 
 from models.monster_type import MonsterType
 from repositories.monsters_repository import MonsterRepository
 from dto.response.monster_list_res import MonsterListRes
 from helpers.result import Result
 from helpers.pageable import Pageable
+from services.s3_services import S3Service
 
 class MonsterService:
-    def __init__(self, monser_repository: MonsterRepository = Depends()):
+    def __init__(self, monser_repository: MonsterRepository = Depends(), s3_service: S3Service = Depends()):
         self.monster_repository = monser_repository
-        
-    
-    def get_list(
+        self.s3_service = s3_service
+
+    async def get_list(
         self,
         page: int,
         size: int,
@@ -62,3 +64,24 @@ class MonsterService:
                    message="Monsters retrieved successfully",
                    status_code=200
                )
+               
+    async def delete(self, id: uuid.UUID) -> Result[None]:
+        monster = self.monster_repository.get_by_id(id)
+        
+        if not monster:
+            return Result.failure(
+                message="Monster not found",
+                status_code=404
+            )
+        
+        image_to_delete = monster.image_url
+        
+        self.monster_repository.delete(monster)
+        
+        if image_to_delete:
+            await self.s3_service.delete_file(image_to_delete)
+        
+        return Result.success(
+            message="Monster deleted successfully",
+            status_code=200
+        )
