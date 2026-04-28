@@ -172,5 +172,3 @@ class MonsterService:
             message="Monster updated successfully",
             status_code=200
         )
-
-
