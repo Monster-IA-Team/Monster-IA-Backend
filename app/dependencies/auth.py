@@ -40,6 +40,13 @@ class Auth:
         if user is None:
             raise credentials_exception
         
+        if user.is_active is not None and not user.is_active:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Account is blocked",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        
         return user
     
     def get_user_in_role_admin(self, token: str = Depends(oauth2_scheme), user_repo: UserRepository = Depends()) -> User:

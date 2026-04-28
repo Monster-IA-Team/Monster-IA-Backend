@@ -42,7 +42,7 @@ class AuthService:
         if not user:
             return Result.failure("Invalid email or password", 404)
         
-        if not user.is_active:
+        if user.is_active is not None and not user.is_active:
             return Result.failure("Account is inactive", 403)
         
         if not verify_password(password, user.password):
@@ -85,7 +85,7 @@ class AuthService:
 
         user = self.user_repository.get_by_id(uuid.UUID(user_id_str))
         
-        if not user or not user.is_active:
+        if not user or (user.is_active is not None and not user.is_active):
             return Result.failure("User not found", 404)
         
         roles_list = [role.name for role in user.roles]
