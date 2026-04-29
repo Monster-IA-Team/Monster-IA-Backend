@@ -2,35 +2,34 @@ import uuid
 from typing import Literal
 from fastapi import Depends
 
-from dto.request.user_monster_list_req import UserMonsterEntryReq
-from dto.response.user_monster_list_res import UserMonsterListRes
+from dto.request.drunk_monster_list_req import DrunkMonsterEntryReq 
+from dto.response.drunk_monster_list_res import DrunkMonsterListRes
 from models.user_monster_entry import UserMonsterEntry
-from repositories.user_monster_repository import UserMonsterRepository
+from repositories.drunk_monster_repository import DrunkMonsterRepository
 from repositories.monsters_repository import MonsterRepository
 from helpers.result import Result
 from helpers.pageable import Pageable
 
-class UserMonsterService:
+class DrunkMonsterService:
     def __init__(
         self, 
-        user_monster_repo: UserMonsterRepository = Depends(),
+        drunk_monster_repo: DrunkMonsterRepository = Depends(),
         monster_repo: MonsterRepository = Depends()
     ):
-        self.user_monster_repo = user_monster_repo
+        self.drunk_monster_repo = drunk_monster_repo
         self.monster_repo = monster_repo
 
-    async def get_user_list(
+    async def get_drunk_list(
         self,
         user_id: uuid.UUID,
         page: int,
         size: int,
         sort_by: str,
         sort_order: Literal["asc", "desc"]
-    ) -> Result[Pageable[UserMonsterListRes]]:
-        all_results = self.user_monster_repo.get_all_with_stats(user_id=user_id)
-        
+    ) -> Result[Pageable[DrunkMonsterListRes]]:
+        all_results = self.drunk_monster_repo.get_all_owned_stats(user_id=user_id)
+
         is_reverse = (sort_order == "desc")
-        
         try:
             all_results.sort(
                 key=lambda x: getattr(x[0], sort_by, getattr(x[0], "name")), 
@@ -44,33 +43,39 @@ class UserMonsterService:
         paged_results = all_results[skip : skip + size]
 
         monster_list = [
-            UserMonsterListRes(
+            DrunkMonsterListRes(
                 id=m.id,
                 name=m.name,
-                comment=m.comment,
+                description=m.description,
                 image_url=m.image_url,
-                average_rating=round(avg, 2) if avg else 0.0,
-                is_drunk_by_user=is_drunk
-            ) for m, avg, is_drunk in paged_results
+                user_rating=rating,
+                is_can_owned=is_owned,
+                comment=comment
+            ) for m, rating, is_owned, comment in paged_results
         ]
 
         return Result.success(
             data=Pageable.create(monster_list, total_elements, page, size),
-            message="User monster list retrieved successfully (sorted in service)",
+            message="Drunk monster list retrieved and sorted in service",
             status_code=200
         )
 
-    async def update_interaction(self, user_id: uuid.UUID, req: UserMonsterEntryReq) -> Result[None]:
+    async def update_drunk_interaction(self, user_id: uuid.UUID, req: DrunkMonsterEntryReq) -> Result[None]:
         if not self.monster_repo.get_by_id(req.monster_id):
             return Result.failure("Monster not found", 404)
 
-        entry = self.user_monster_repo.get_user_entry(user_id, req.monster_id)
+        entry = self.drunk_monster_repo.get_user_entry(user_id, req.monster_id)
         
         if not entry:
             entry = UserMonsterEntry(user_id=user_id, monster_id=req.monster_id)
 
         entry.rating = req.rating
-        entry.is_drunk = req.is_drunk
+        entry.is_can_owned = req.is_can_owned
+        entry.comment = req.comment
         
-        self.user_monster_repo.save_entry(entry)
-        return Result.success(message="Interaction updated successfully")
+        self.drunk_monster_repo.save_entry(entry)
+        
+        return Result.success(
+            message="Ownership and private notes updated successfully",
+            status_code=200
+        )

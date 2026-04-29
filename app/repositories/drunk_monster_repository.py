@@ -7,27 +7,21 @@ from configuration.database import get_session
 from models.monster_type import MonsterType
 from models.user_monster_entry import UserMonsterEntry
 
-class UserMonsterRepository:
+class DrunkMonsterRepository:
     def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
-    def get_all_with_stats(self, user_id: uuid.UUID) -> list[Tuple[MonsterType, float, bool]]:
-        avg_rating_stmt = (
-            select(
-                UserMonsterEntry.monster_id,
-                func.avg(UserMonsterEntry.rating).label("avg_rating")
-            )
-            .group_by(UserMonsterEntry.monster_id)
-            .subquery()
-        )
-
+    def get_all_owned_stats(
+        self, 
+        user_id: uuid.UUID
+    ) -> list[Tuple[MonsterType, Optional[int], bool, Optional[str]]]:
         stmt = (
             select(
                 MonsterType,
-                func.coalesce(avg_rating_stmt.c.avg_rating, 0).label("average"),
-                func.coalesce(UserMonsterEntry.is_drunk, False).label("is_drunk")
+                UserMonsterEntry.rating.label("user_rating"),
+                func.coalesce(UserMonsterEntry.is_can_owned, False).label("is_can_owned"),
+                UserMonsterEntry.comment
             )
-            .outerjoin(avg_rating_stmt, MonsterType.id == avg_rating_stmt.c.monster_id)
             .outerjoin(
                 UserMonsterEntry, 
                 and_(MonsterType.id == UserMonsterEntry.monster_id, UserMonsterEntry.user_id == user_id)
