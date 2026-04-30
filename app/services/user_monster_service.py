@@ -47,7 +47,7 @@ class UserMonsterService:
             UserMonsterListRes(
                 id=m.id,
                 name=m.name,
-                comment=m.comment,
+                description=m.description,
                 image_url=m.image_url,
                 average_rating=round(avg, 2) if avg else 0.0,
                 is_drunk_by_user=is_drunk
