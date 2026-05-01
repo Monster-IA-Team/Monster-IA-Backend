@@ -3,18 +3,20 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from fastapi.concurrency import run_in_threadpool
 
-from controllers import  (
+from controllers import (
     predict_controllers, 
     schedule_controllers, 
     quiz_controllers,
     image_controllers,
     auth_controller,
     monster_controller,
+    user_monster_controller,
+    drunk_monster_controller,
+    schedule_management_controller
     admin_controller
 )
 
 from configuration.s3_config import init_bucket
-
 from seed.seed_data import SeedData
 
 @asynccontextmanager
@@ -46,4 +48,7 @@ app.include_router(quiz_controllers.router)
 app.include_router(image_controllers.router)
 app.include_router(auth_controller.router)
 app.include_router(monster_controller.router)
+app.include_router(user_monster_controller.router)
+app.include_router(drunk_monster_controller.router)
+app.include_router(schedule_management_controller.router)
 app.include_router(admin_controller.router)

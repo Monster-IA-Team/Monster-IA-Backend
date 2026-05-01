@@ -95,8 +95,14 @@ class SeedData:
     def seed_monsters(self):
         monsters_data = [
             {
-                "name": "Basic",
+                "name": "Monster Energy",
                 "description": "Klasyczny, oryginalny, słodki i mocny smak Monster Energy.",
+                "caffeine_mg": 160,
+                "taste_profile": TasteProfileEnum.sweet
+            },
+            {
+                "name": "Monster Energy Zero Sugar",
+                "description": "Klasyczny, oryginalny, słodki i mocny smak Monster Energy w wersji bez cukru.",
                 "caffeine_mg": 160,
                 "taste_profile": TasteProfileEnum.sweet
             },

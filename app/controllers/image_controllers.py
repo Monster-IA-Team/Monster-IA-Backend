@@ -13,7 +13,14 @@ s3_service = S3Service()
 @router.post("/upload")
 async def upload_image(
     name: str = Form(...), 
+    folder: str = Form("images"), 
     file: UploadFile = File(...)
 ):
-    url = await s3_service.upload_file(name, file)
+
+    url = await s3_service.upload_file(
+        file=file,
+        name=name,
+        folder=folder
+    )
+    
     return {"url": url}
