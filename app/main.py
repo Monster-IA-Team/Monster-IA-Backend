@@ -13,6 +13,7 @@ from controllers import (
     user_monster_controller,
     drunk_monster_controller,
     schedule_management_controller
+    admin_controller
 )
 
 from configuration.s3_config import init_bucket
@@ -50,3 +51,4 @@ app.include_router(monster_controller.router)
 app.include_router(user_monster_controller.router)
 app.include_router(drunk_monster_controller.router)
 app.include_router(schedule_management_controller.router)
+app.include_router(admin_controller.router)
