@@ -95,6 +95,36 @@ class SeedData:
     def seed_monsters(self):
         monsters_data = [
             {
+                "name": "Juiced Aussie Lemonade",
+                "description": "Klasyczna australijska lemoniada, kwaśno-słodka z sokiem.",
+                "caffeine_mg": 160,
+                "taste_profile": TasteProfileEnum.sour
+            },
+            {
+                "name": "Full Throttle",
+                "description": "Oryginalny energetyk cytrusowy, intensywny w smaku.",
+                "caffeine_mg": 160,
+                "taste_profile": TasteProfileEnum.sweet
+            },
+            {
+                "name": "Juiced Mango Loco",
+                "description": "Egzotyczna mieszanka soków z dominującym smakiem mango.",
+                "caffeine_mg": 160,
+                "taste_profile": TasteProfileEnum.sweet
+            },
+            {
+                "name": "Juiced Monarch",
+                "description": "Połączenie soków brzoskwini i nektarynki, bardzo słodki.",
+                "caffeine_mg": 160,
+                "taste_profile": TasteProfileEnum.sweet
+            },
+            {
+                "name": "Juiced Viking Berry",
+                "description": "Nordyckie dzikie jagody połączone z energią Monstera.",
+                "caffeine_mg": 160,
+                "taste_profile": TasteProfileEnum.sweet
+            },
+            {
                 "name": "Monster Energy",
                 "description": "Klasyczny, oryginalny, słodki i mocny smak Monster Energy.",
                 "caffeine_mg": 160,
@@ -107,32 +137,14 @@ class SeedData:
                 "taste_profile": TasteProfileEnum.sweet
             },
             {
-                "name": "Ultra Peachy Keen",
-                "description": "Zero cukru, orzeźwiający smak letniej brzoskwini.",
-                "caffeine_mg": 150,
-                "taste_profile": TasteProfileEnum.sweet
-            },
-            {
-                "name": "Ultra Fiesta Mango",
-                "description": "Kombinacja mango bez cukru, która smakuje jak prawdziwa fiesta.",
-                "caffeine_mg": 150,
-                "taste_profile": TasteProfileEnum.sweet
-            },
-            {
-                "name": "Ultra Violet",
-                "description": "Fioletowy klasyk bez cukru o smaku winogronowo-cytrusowym.",
-                "caffeine_mg": 150,
-                "taste_profile": TasteProfileEnum.sour
-            },
-            {
-                "name": "Ultra Rosa",
-                "description": "Lekki i rześki smak z kwiatowymi nutami, bez cukru.",
-                "caffeine_mg": 150,
+                "name": "Monster Nitro Super Dry",
+                "description": "Technologia infuzji azotem, kremowa tekstura z cytrusowym smakiem Super Dry.",
+                "caffeine_mg": 160,
                 "taste_profile": TasteProfileEnum.moderate
             },
             {
-                "name": "Juiced Monarch",
-                "description": "Połączenie soków brzoskwini i nektarynki, bardzo słodki.",
+                "name": "Reserve Peaches N' Cream",
+                "description": "Gładkie i kremowe połączenie smaku słodkiej brzoskwini z delikatną śmietanką.",
                 "caffeine_mg": 160,
                 "taste_profile": TasteProfileEnum.sweet
             },
@@ -143,15 +155,33 @@ class SeedData:
                 "taste_profile": TasteProfileEnum.sour
             },
             {
-                "name": "VR46",
-                "description": "Wersja The Doctor sygnowana numerem 46, mocno cytrusowa.",
-                "caffeine_mg": 160,
+                "name": "Ultra Black",
+                "description": "Mocny smak ciemnej czereśni, zero cukru.",
+                "caffeine_mg": 150,
+                "taste_profile": TasteProfileEnum.moderate
+            },
+            {
+                "name": "Ultra Blue",
+                "description": "Lekko kwaskowaty smak niebieskiej maliny, lżejszy profil bez cukru.",
+                "caffeine_mg": 150,
                 "taste_profile": TasteProfileEnum.sour
             },
             {
-                "name": "Full Throttle",
-                "description": "Oryginalny energetyk cytrusowy, intensywny w smaku.",
-                "caffeine_mg": 160,
+                "name": "Ultra Fiesta Mango",
+                "description": "Kombinacja mango bez cukru, która smakuje jak prawdziwa fiesta.",
+                "caffeine_mg": 150,
+                "taste_profile": TasteProfileEnum.sweet
+            },
+            {
+                "name": "Ultra Gold",
+                "description": "Smak świeżego ananasa ukryty w puszce bez cukru.",
+                "caffeine_mg": 150,
+                "taste_profile": TasteProfileEnum.sweet
+            },
+            {
+                "name": "Ultra Peachy Keen",
+                "description": "Zero cukru, orzeźwiający smak letniej brzoskwini.",
+                "caffeine_mg": 150,
                 "taste_profile": TasteProfileEnum.sweet
             },
             {
@@ -161,38 +191,44 @@ class SeedData:
                 "taste_profile": TasteProfileEnum.moderate
             },
             {
-                "name": "Juiced Khaotic",
-                "description": "Powrót do klasycznego Khaosa - mieszanka soków owocowych o smaku pomarańczowym.",
-                "caffeine_mg": 160,
-                "taste_profile": TasteProfileEnum.sweet
-            },
-            {
-                "name": "Ultra Blue",
-                "description": "Lekko kwaskowaty smak niebieskiej maliny, lżejszy profil bez cukru.",
-                "caffeine_mg": 150,
-                "taste_profile": TasteProfileEnum.sour
-            },
-            {
-                "name": "Ultra Black",
-                "description": "Mocny smak ciemnej czereśni, zero cukru.",
+                "name": "Ultra Rosa",
+                "description": "Lekki i rześki smak z kwiatowymi nutami, bez cukru.",
                 "caffeine_mg": 150,
                 "taste_profile": TasteProfileEnum.moderate
             },
             {
-                "name": "Ultra",
+                "name": "Ultra Vice Guava",
+                "description": "Tropikalna gujawa z charakterystycznym orzeźwieniem Ultra.",
+                "caffeine_mg": 150,
+                "taste_profile": TasteProfileEnum.sweet
+            },
+            {
+                "name": "Ultra Violet",
+                "description": "Fioletowy klasyk bez cukru o smaku winogronowo-cytrusowym.",
+                "caffeine_mg": 150,
+                "taste_profile": TasteProfileEnum.sour
+            },
+            {
+                "name": "Ultra Watermelon",
+                "description": "Orzeźwiający i lekki smak soczystego arbuza w wersji bez dodatku cukru.",
+                "caffeine_mg": 160,
+                "taste_profile": TasteProfileEnum.sweet
+            },
+            {
+                "name": "Ultra White",
                 "description": "Biały klasyk Monster Ultra. Zero cukru, smak cytrusowy (grejpfrut/cytryna).",
                 "caffeine_mg": 150,
                 "taste_profile": TasteProfileEnum.moderate
             },
             {
-                "name": "Aussie Lemonade Juiced",
-                "description": "Klasyczna australijska lemoniada, kwaśno-słodka z sokiem.",
+                "name": "VR46",
+                "description": "Wersja The Doctor sygnowana numerem 46, mocno cytrusowa.",
                 "caffeine_mg": 160,
                 "taste_profile": TasteProfileEnum.sour
             },
             {
-                "name": "Mango Loco Juiced",
-                "description": "Egzotyczna mieszanka soków z dominującym smakiem mango.",
+                "name": "Juiced Khaotic",
+                "description": "Powrót do klasycznego Khaosa - mieszanka soków owocowych o smaku pomarańczowym.",
                 "caffeine_mg": 160,
                 "taste_profile": TasteProfileEnum.sweet
             },
@@ -209,40 +245,16 @@ class SeedData:
                 "taste_profile": TasteProfileEnum.sweet
             },
             {
-                "name": "Ultra Gold",
-                "description": "Smak świeżego ananasa ukryty w puszce bez cukru.",
-                "caffeine_mg": 150,
-                "taste_profile": TasteProfileEnum.sweet
-            },
-            {
                 "name": "Ultra Paradise",
                 "description": "Kiwi, limonka i odrobina ogórka. Tropiki bez cukru.",
                 "caffeine_mg": 150,
                 "taste_profile": TasteProfileEnum.sour
             },
             {
-                "name": "Nitro Super Dry",
-                "description": "Technologia infuzji azotem, kremowa tekstura z cytrusowym smakiem Super Dry.",
-                "caffeine_mg": 160,
-                "taste_profile": TasteProfileEnum.moderate
-            },
-            {
                 "name": "Bad Apple",
                 "description": "Intensywny i lekko wytrawny smak jabłka, nie za słodki.",
                 "caffeine_mg": 160,
                 "taste_profile": TasteProfileEnum.moderate
-            },
-            {
-                "name": "Ultra Vice (Guava)",
-                "description": "Tropikalna gujawa z charakterystycznym orzeźwieniem Ultra.",
-                "caffeine_mg": 150,
-                "taste_profile": TasteProfileEnum.sweet
-            },
-            {
-                "name": "Viking Berry Juice",
-                "description": "Nordyckie dzikie jagody połączone z energią Monstera.",
-                "caffeine_mg": 160,
-                "taste_profile": TasteProfileEnum.sweet
             },
             {
                 "name": "Rehab Wild Berry Tea",
@@ -267,7 +279,7 @@ class SeedData:
                 "description": "Smak bardzo zbliżony do oryginalnego, ale całkowicie bez kalorii i cukru.",
                 "caffeine_mg": 160,
                 "taste_profile": TasteProfileEnum.sweet            
-                },
+            },
             {
                 "name": "Java Cafe Latte",
                 "description": "Łagodna kawa z dużą ilością mleka i energii Monster.",
