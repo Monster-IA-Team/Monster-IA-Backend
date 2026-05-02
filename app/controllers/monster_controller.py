@@ -1,17 +1,32 @@
 import uuid
 from typing import Literal, Optional
-
-from fastapi import APIRouter, Depends, Query, Path, status, Form, File, UploadFile
+from fastapi import (
+    APIRouter,
+    Depends,
+    Query,
+    Path,
+    status,
+    Form,
+    File,
+    UploadFile
+)
 
 from dto.request.add_monser_req import AddMonserRequest
 from dto.request.update_monster_req import UpdateMonsterReq
 from dto.response.monster_list_res import MonsterListRes
-from helpers.pageable import Pageable
-from helpers.result import Result
+from dto.request.drunk_monster_list_req import DrunkMonsterEntryReq
+from dto.response.drunk_monster_list_res import DrunkMonsterListRes
+
 from models.taste_profile_enum import TasteProfileEnum
-from services.monster_services import MonsterService
-from dependencies.auth import auth_handler
 from models.user import User
+
+from services.monster_services import MonsterService
+from services.drunk_monster_service import DrunkMonsterService
+
+from dependencies.auth import auth_handler
+
+from helpers.result import Result
+from helpers.pageable import Pageable
 
 router = APIRouter(
     prefix="/api/monsters",
@@ -19,7 +34,7 @@ router = APIRouter(
 )
 
 @router.get(
-    "/list",
+    "/admin/list",
     summary="Get Monster list",
     response_description="Returns a paginated list of Monster Energy flavors along with metadata.",
     status_code=status.HTTP_200_OK
@@ -33,7 +48,7 @@ async def get_list(
     current_admin: User = Depends(auth_handler.get_user_in_role_admin),
 ) -> Result[Pageable[MonsterListRes]]: 
     """
-    ### Returns available Monster flavors from the database.
+    ### Returns available Monster flavors from the database. (FOR ADMIN)
     The endpoint fully supports **pagination** and **dynamic sorting**.
     It ignores deleted entries (soft-delete mechanism).
     
@@ -50,7 +65,7 @@ async def get_list(
 
 
 @router.delete(
-    "/{id}",
+    "/admin/delete/{id}",
     summary="Delete a Monster",
     response_description="Success message upon deletion.",
     status_code=status.HTTP_200_OK,
@@ -65,7 +80,7 @@ async def delete_monster(
     current_admin: User = Depends(auth_handler.get_user_in_role_admin),
 ):
     """
-    ### Performs a Soft Delete of a Monster.
+    ### Performs a Soft Delete of a Monster. (FOR ADMIN)
     
     For analytical purposes and to maintain structural integrity, the record is **not physically removed** from the database. Instead:
     - The date is recorded in the `deleted_at` field.
@@ -77,7 +92,7 @@ async def delete_monster(
 
 
 @router.post(
-    "/add",
+    "/admin/add",
     summary="Add a new Monster",
     response_description="Success message upon creation.",
     status_code=status.HTTP_201_CREATED,
@@ -101,7 +116,7 @@ async def create_monster(
         current_admin: User = Depends(auth_handler.get_user_in_role_admin),
 ):
     """
-    ### Creates a new Monster Energy flavor in the database.
+    ### Creates a new Monster Energy flavor in the database. (FOR ADMIN)
 
     This endpoint accepts `multipart/form-data` to handle both text fields and the image file upload simultaneously.
     - The image will be uploaded to the S3/MinIO bucket.
@@ -121,7 +136,7 @@ async def create_monster(
     return await monster_service.create(request_dto, image)
 
 @router.put(
-    "/update",
+    "/admin/update",
     summary="Update a Monster flavor",
     response_description="Success message upon update.",
     status_code=status.HTTP_200_OK,
@@ -147,7 +162,7 @@ async def update_monster(
         current_admin: User = Depends(auth_handler.get_user_in_role_admin),
 ):
     """
-    ### Updates an existing Monster Energy flavor.
+    ### Updates an existing Monster Energy flavor. (FOR ADMIN)
 
     This endpoint accepts `multipart/form-data`. All fields except the `id` are optional.
     Only the provided fields will be updated. If a new image is provided, the old one will be automatically removed from S3.
@@ -165,3 +180,36 @@ async def update_monster(
         is_premium_line=is_premium_line
     )
     return await monster_service.update(request, image)
+
+@router.get(
+    "/list",
+    summary="Get monsters with user ownership status and private notes",
+    status_code=status.HTTP_200_OK
+)
+async def get_drunk_monsters_for_user(
+    page: int = Query(1, ge=1),
+    size: int = Query(10, ge=1, le=100),
+    sort_by: str = Query("name"),
+    sort_order: Literal["asc", "desc"] = Query("asc"),
+    drunk_service: DrunkMonsterService = Depends(),
+    current_user: User = Depends(auth_handler.get_current_user),
+) -> Result[Pageable[DrunkMonsterListRes]]:
+    return await drunk_service.get_drunk_list(
+        user_id=current_user.id,
+        page=page,
+        size=size,
+        sort_by=sort_by,
+        sort_order=sort_order
+    )
+
+@router.post(
+    "/interaction",
+    summary="Update ownership status, rating, and private notes",
+    status_code=status.HTTP_200_OK
+)
+async def update_drunk_interaction(
+    request: DrunkMonsterEntryReq,
+    drunk_service: DrunkMonsterService = Depends(),
+    current_user: User = Depends(auth_handler.get_current_user),
+):
+    return await drunk_service.update_drunk_interaction(current_user.id, request)

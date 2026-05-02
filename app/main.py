@@ -10,7 +10,6 @@ from controllers import (
     auth_controller,
     monster_controller,
     user_monster_controller,
-    drunk_monster_controller,
     admin_controller
 )
 
@@ -45,6 +44,5 @@ app.include_router(quiz_controllers)
 app.include_router(auth_controller)
 app.include_router(monster_controller)
 app.include_router(user_monster_controller.router)
-app.include_router(drunk_monster_controller.router)
 app.include_router(schedule_controller)
 app.include_router(admin_controller)
