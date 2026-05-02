@@ -26,7 +26,7 @@ class ScheduleManagementService:
             wake_time=req.wake,
             sleep_time=req.sleep,
             desired_count=req.monster_count,
-            planner=res.model_dump()
+            planner=res.model_dump(mode="json")
         )
 
         tasks = [
@@ -37,7 +37,7 @@ class ScheduleManagementService:
         ]
 
         saved = self.planner_repo.save_planner(new_planner, tasks)
-        return Result.success(data=saved.id, message="Schedule saved successfully")
+        return Result.success(status_code=201, data=saved.id, message="Schedule saved successfully")
 
     async def get_paginated_history(
         self,
@@ -67,6 +67,7 @@ class ScheduleManagementService:
         ]
 
         return Result.success(
+            status_code=200,
             data=Pageable.create(data, total, page, size),
             message="History retrieved successfully"
         )
@@ -77,4 +78,4 @@ class ScheduleManagementService:
             return Result.failure("Planner not found", 404)
         
         self.planner_repo.delete(planner)
-        return Result.success(message="Planner deleted successfully")
+        return Result.success(status_code=200,message="Planner deleted successfully")

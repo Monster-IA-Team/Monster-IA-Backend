@@ -11,7 +11,7 @@ from helpers.result import Result
 from helpers.pageable import Pageable
 
 router = APIRouter(
-    prefix="/api/drunk-monsters",
+    prefix="/api/monsters",
     tags=["Drunk Monsters / Ownership"]
 )
 

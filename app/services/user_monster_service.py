@@ -73,4 +73,4 @@ class UserMonsterService:
         entry.is_drunk = req.is_drunk
         
         self.user_monster_repo.save_entry(entry)
-        return Result.success(message="Interaction updated successfully")
+        return Result.success(message="Interaction updated successfully", status_code=200)

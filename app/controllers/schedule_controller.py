@@ -10,13 +10,16 @@ from helpers.pageable import Pageable
 from helpers.result import Result
 
 router = APIRouter(
-    prefix="/api/schedule-management",
+    prefix="/api/schedule",
     tags=["Schedule Management"],
     dependencies=[Depends(auth_handler.get_current_user)]
 )
 
+def get_schedule_service() -> ScheduleService:
+    return ScheduleService()
+
 @router.post(
-    "/calculate-and-save",
+    "/calculate",
     summary="Calculate and save schedule",
     response_description="Returns the saved planner details after successful calculation.",
     status_code=status.HTTP_201_CREATED,
@@ -28,7 +31,7 @@ router = APIRouter(
 async def calculate_and_save(
     req: ScheduleRequest,
     user=Depends(auth_handler.get_current_user),
-    calc_service: ScheduleService = Depends(),
+    calc_service: ScheduleService = Depends(get_schedule_service),
     mgmt_service: ScheduleManagementService = Depends()
 ):
     """
@@ -42,7 +45,7 @@ async def calculate_and_save(
     return await mgmt_service.save_calculated_planner(user.id, req, calculation_result)
 
 @router.get(
-    "/history", 
+    "/",
     response_model=Result[Pageable[PlannerTableRes]],
     summary="Get calculation history",
     response_description="Returns a paginated list of previously calculated schedules.",
