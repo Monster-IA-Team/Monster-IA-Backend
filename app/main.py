@@ -12,7 +12,7 @@ from controllers import (
     monster_controller,
     user_monster_controller,
     drunk_monster_controller,
-    schedule_management_controller
+    schedule_management_controller,
     admin_controller
 )
 
@@ -42,13 +42,13 @@ app.add_middleware(
     allow_headers=["*"]
     )
 
-app.include_router(predict_controllers.router)
-app.include_router(schedule_controllers.router)
-app.include_router(quiz_controllers.router)
-app.include_router(image_controllers.router)
-app.include_router(auth_controller.router)
-app.include_router(monster_controller.router)
+app.include_router(predict_controllers)
+app.include_router(schedule_controllers)
+app.include_router(quiz_controllers)
+app.include_router(image_controllers)
+app.include_router(auth_controller)
+app.include_router(monster_controller)
 app.include_router(user_monster_controller.router)
 app.include_router(drunk_monster_controller.router)
 app.include_router(schedule_management_controller.router)
-app.include_router(admin_controller.router)
+app.include_router(admin_controller)
