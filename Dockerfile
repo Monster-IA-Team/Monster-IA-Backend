@@ -1,11 +1,11 @@
 # ---------- BUILD STAGE ----------
 FROM python:3.14-slim AS builder
 
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 COPY requirements.txt .
 
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir --prefix=/install -r requirements.txt
-
+RUN uv pip install --system --prefix=/install -r requirements.txt --index-strategy unsafe-best-match
 # ---------- RUNTIME STAGE ----------
 FROM python:3.14-slim
 

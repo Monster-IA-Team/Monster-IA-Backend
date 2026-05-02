@@ -39,3 +39,8 @@ tests/
 
 # OS / misc
 Thumbs.db
+
+# Other
+.venv/
+compose.yml
+.dockerignore

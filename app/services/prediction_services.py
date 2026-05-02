@@ -51,7 +51,7 @@ class PredictionService:
 
             if best_binary_label == "Not_Monster":
                 return PredictionResponse(
-                    label="To nie jest Monster!",
+                    label="This image does not contain a monster.",
                     confidence=float(bin_conf_val.item()),
                     prediction=[],
                     num_classes=len(self.binary_classes)
