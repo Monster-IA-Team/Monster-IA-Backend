@@ -21,7 +21,6 @@ from models.taste_profile_enum import TasteProfileEnum
 from models.user import User
 
 from services.monster_services import MonsterService
-from services.drunk_monster_service import DrunkMonsterService
 
 from dependencies.auth import auth_handler
 
@@ -191,7 +190,7 @@ async def get_drunk_monsters_for_user(
     size: int = Query(10, ge=1, le=100),
     sort_by: str = Query("name"),
     sort_order: Literal["asc", "desc"] = Query("asc"),
-    drunk_service: DrunkMonsterService = Depends(),
+    drunk_service: MonsterService = Depends(),
     current_user: User = Depends(auth_handler.get_current_user),
 ) -> Result[Pageable[DrunkMonsterListRes]]:
     return await drunk_service.get_drunk_list(
@@ -209,7 +208,7 @@ async def get_drunk_monsters_for_user(
 )
 async def update_drunk_interaction(
     request: DrunkMonsterEntryReq,
-    drunk_service: DrunkMonsterService = Depends(),
+    drunk_service: MonsterService = Depends(),
     current_user: User = Depends(auth_handler.get_current_user),
 ):
     return await drunk_service.update_drunk_interaction(current_user.id, request)

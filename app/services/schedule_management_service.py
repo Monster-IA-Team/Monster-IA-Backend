@@ -1,5 +1,5 @@
 import uuid
-from typing import Literal, List
+from typing import Literal
 from fastapi import Depends
 from models.planner import Planner
 from models.task import Task

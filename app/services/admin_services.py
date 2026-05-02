@@ -4,7 +4,6 @@ from typing import List
 from fastapi import Depends
 
 from models.user import User
-from models.role import Role
 from helpers.result import Result
 from helpers.pageable import Pageable
 

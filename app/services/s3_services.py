@@ -16,7 +16,8 @@ class S3Service:
     def __init__(self):
         pass
            
-    async def upload_file(self, name: str, folder: str, file: UploadFile) -> str:
+    @staticmethod
+    async def upload_file(name: str, folder: str, file: UploadFile) -> str:
         async with session.client("s3", **S3_CONFIG) as s3_client:
             try:
                 name = name.replace(" ", "_").strip().lower()
@@ -39,7 +40,8 @@ class S3Service:
                 logger.error(f"Error uploading file to S3: {e}")
                 raise e
     
-    async def delete_file(self, file_url: str):
+    @staticmethod
+    async def delete_file(file_url: str):
         if not file_url:
             return
         

@@ -32,10 +32,11 @@ class PredictionService:
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ])
-        
-    def read_img(self, img_bytes: bytes) -> Image.Image:
+
+    @staticmethod
+    def read_img(img_bytes: bytes) -> Image.Image:
         return Image.open(io.BytesIO(img_bytes)).convert('RGB')
-    
+
     def predict(self, img_bytes: bytes) -> PredictionResponse:
         img = self.read_img(img_bytes)
         img_t = self.tf(img).unsqueeze(0)
