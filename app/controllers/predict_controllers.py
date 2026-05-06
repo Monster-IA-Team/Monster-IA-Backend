@@ -7,8 +7,7 @@ from dto.response.prediction_res import PredictionResponse
 
 router = APIRouter(
     prefix="/api/predict",
-    tags=["IA Prediction"],
-    dependencies=[Depends(auth_handler.get_current_user)]
+    tags=["IA Prediction"]
 )
 
 prediction_service = PredictionService()
