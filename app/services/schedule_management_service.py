@@ -1,6 +1,9 @@
 import uuid
 from typing import Literal
 from fastapi import Depends
+
+from dto.response.planner_detail_res import PlannerDetailRes
+from dto.response.task_detail_res import TaskDetailRes
 from models.planner import Planner
 from models.task import Task
 from repositories.schedule_management_repository import PlannerRepository
@@ -30,9 +33,11 @@ class ScheduleManagementService:
         )
 
         tasks = [
-            Task(title=t.title if hasattr(t, 'title') else "Task", 
-                 start_time=t.start, 
-                 end_time=t.end) 
+            Task(
+                title=t.title if t.title else "Unnamed Task",
+                start_time=t.start,
+                end_time=t.end
+            )
             for t in req.tasks
         ]
 
@@ -79,3 +84,34 @@ class ScheduleManagementService:
         
         self.planner_repo.delete(planner)
         return Result.success(status_code=200,message="Planner deleted successfully")
+
+    async def get_planner(self, planner_id: uuid.UUID, user_id: uuid.UUID ) -> Result[PlannerDetailRes]:
+        planner = self.planner_repo.get_by_id(planner_id)
+
+        if not planner or planner.user_id != user_id:
+            return Result.failure("Planner not found", 404)
+
+        task_detail = [
+            TaskDetailRes (
+                id=t.id,
+                title=t.title,
+                start_time=t.start_time,
+                end_time=t.end_time
+            ) for t in planner.tasks
+        ]
+
+        data = PlannerDetailRes(
+            id=planner_id,
+            wake_time=planner.wake_time,
+            sleep_time=planner.sleep_time,
+            desired_count=planner.desired_count,
+            created_at=planner.created_at,
+            planner=planner.planner,
+            tasks=task_detail
+        )
+
+        return Result.success(
+            status_code=200,
+            data=data,
+            message="Planner retrieved successfully"
+        )
