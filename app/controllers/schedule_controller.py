@@ -8,6 +8,7 @@ from dto.request.schedule_req import ScheduleRequest
 from dto.response.planner_table_res import PlannerTableRes
 from helpers.pageable import Pageable
 from helpers.result import Result
+from dto.response.planner_detail_res import PlannerDetailRes
 
 router = APIRouter(
     prefix="/api/schedule",
@@ -88,3 +89,28 @@ async def delete_planner(
     If the record does not exist or access is denied, appropriate error codes are returned.
     """
     return await mgmt_service.delete_planner(planner_id, user.id)
+
+
+@router.get(
+    "/{planner_id}",
+    response_model=Result[PlannerDetailRes],
+    summary="Get detailed information about a specific planner",
+    response_description="Returns the detailed view of a planner including its configuration and tasks.",
+    status_code=status.HTTP_200_OK,
+    responses={
+        404: {"description": "Planner not found or unauthorized access."}
+    }
+)
+async def get_planner_details(
+        planner_id: uuid.UUID = Path(..., description="Unique identifier (UUID) of the planner to retrieve"),
+        user=Depends(auth_handler.get_current_user),
+        mgmt_service: ScheduleManagementService = Depends()
+):
+    """
+    ### Retrieves detailed information about a specific planner.
+
+    This endpoint returns the most important information about a saved schedule,
+    including the base settings (wake/sleep time) and a list of all assigned tasks.
+    It verifies if the `planner_id` belongs to the authenticated `user.id`.
+    """
+    return await mgmt_service.get_planner(planner_id, user.id)
