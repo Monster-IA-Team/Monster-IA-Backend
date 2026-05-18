@@ -101,6 +101,12 @@ class SeedData:
                 "taste_profile": TasteProfileEnum.sour
             },
             {
+                "name": "Bad Apple",
+                "description": "Intensywny i lekko wytrawny smak jabłka, nie za słodki.",
+                "caffeine_mg": 160,
+                "taste_profile": TasteProfileEnum.moderate
+            },
+            {
                 "name": "Full Throttle",
                 "description": "Oryginalny energetyk cytrusowy, intensywny w smaku.",
                 "caffeine_mg": 160,
@@ -123,6 +129,12 @@ class SeedData:
                 "description": "Nordyckie dzikie jagody połączone z energią Monstera.",
                 "caffeine_mg": 160,
                 "taste_profile": TasteProfileEnum.sweet
+            },
+            {
+                "name": "Lando Norris Zero Sugar",
+                "description": "Zero cukru. Lekki, orzeźwiający smak melona z cytrusową nutą yuzu.",
+                "caffeine_mg": 160,
+                "taste_profile": TasteProfileEnum.moderate
             },
             {
                 "name": "Monster Energy",
@@ -149,6 +161,12 @@ class SeedData:
                 "taste_profile": TasteProfileEnum.sweet
             },
             {
+                "name": "Rio Punch",
+                "description": "Tropikalny punch z nutą papai, wanilii i czarnej porzeczki. Słodki, owocowy i lekko przyprawowy.",
+                "caffeine_mg": 160,
+                "taste_profile": TasteProfileEnum.sweet
+            },
+            {
                 "name": "The Doctor",
                 "description": "Dedykowany Valentino Rossi, orzeźwiający smak cytrusów (cytryna-pomarańcza).",
                 "caffeine_mg": 160,
@@ -165,6 +183,12 @@ class SeedData:
                 "description": "Lekko kwaskowaty smak niebieskiej maliny, lżejszy profil bez cukru.",
                 "caffeine_mg": 150,
                 "taste_profile": TasteProfileEnum.sour
+            },
+            {
+                "name": "Ultra Fantasy Ruby Red",
+                "description": "Zero cukru. Orzeźwiający smak różowego grejpfruta z mocną cytrusową nutą.",
+                "caffeine_mg": 160,
+                "taste_profile": TasteProfileEnum.moderate
             },
             {
                 "name": "Ultra Fiesta Mango",
@@ -249,12 +273,6 @@ class SeedData:
                 "description": "Kiwi, limonka i odrobina ogórka. Tropiki bez cukru.",
                 "caffeine_mg": 150,
                 "taste_profile": TasteProfileEnum.sour
-            },
-            {
-                "name": "Bad Apple",
-                "description": "Intensywny i lekko wytrawny smak jabłka, nie za słodki.",
-                "caffeine_mg": 160,
-                "taste_profile": TasteProfileEnum.moderate
             },
             {
                 "name": "Rehab Wild Berry Tea",
